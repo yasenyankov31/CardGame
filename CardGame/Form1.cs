@@ -12,14 +12,12 @@ namespace CardGame
 {
     public partial class Form1 : Form
     {
-        private List<Color> colors =new List<Color>{Color.Red, Color.Red , Color.Green, Color.Green,
-            Color.Blue, Color.Blue, Color.Cyan, Color.Cyan, Color.Orange, Color.Orange,Color.Yellow,Color.Yellow,Color.Purple,Color.Purple,Color.Pink,Color.Pink }.OrderBy(a => Guid.NewGuid()).ToList();
+        private List<Color> colors;
         public Image card = Properties.Resources.aviator_blue_back__2_;
 
 
         public List<Button> selectedButtons = new List<Button>();
-        public int done = 8;
-
+        public int done;
         public Form1()
         {
             InitializeComponent();
@@ -66,26 +64,56 @@ namespace CardGame
 
         }
 
+        public void ResetCards()
+        {
+            List<Button> buttons = Controls.OfType<Button>().ToList();
+
+            colors = new List<Color>{Color.Red, Color.Red , Color.Green, Color.Green,
+            Color.Blue, Color.Blue, Color.Cyan, Color.Cyan, Color.Orange, Color.Orange,
+            Color.Yellow,Color.Yellow,Color.Purple,Color.Purple,Color.Pink,Color.Pink }
+            .OrderBy(a => Guid.NewGuid()).ToList();
+
+            buttons.Remove(buttons.First());
+            int i= 0;
+            done = 8;
+            selectedButtons.Clear();
+            foreach (var button in buttons)
+            {
+                button.Image = card;
+                button.BackColor = colors[i];
+                button.Name = "button" + i;
+                i++;
+                
+            }
+
+        }
+
         public void PrepareCards()
         {
-            List<Button> buttons = this.Controls.OfType<Button>().ToList();
+            List<Button> buttons = Controls.OfType<Button>().ToList();
+
+            colors = new List<Color>{Color.Red, Color.Red , Color.Green, Color.Green,
+            Color.Blue, Color.Blue, Color.Cyan, Color.Cyan, Color.Orange, Color.Orange,
+            Color.Yellow,Color.Yellow,Color.Purple,Color.Purple,Color.Pink,Color.Pink }
+            .OrderBy(a => Guid.NewGuid()).ToList();
+
             buttons.Remove(buttons.First());
             int i = 0;
+            done = 8;
             foreach (var button in buttons)
             {
                 button.Image = card;
                 button.BackColor= colors[i];
                 button.Click += (sender, args) => CardClickEvent(button);
-                i++;
+                i++;   
 
             }
+            button17.Click += (sender, args) => {
+                ResetCards();
+                button17.Visible = false;
+                label1.Visible = false;
+            };
         }
 
-        private void button17_Click(object sender, EventArgs e)
-        {
-            PrepareCards();
-            button17.Visible = false;
-            label1.Visible = false;
-        }
     }
 }

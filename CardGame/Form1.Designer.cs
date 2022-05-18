@@ -203,7 +203,6 @@ namespace CardGame
             this.button17.Text = "Play Again";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Visible = false;
-            this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
             // label1
             // 
